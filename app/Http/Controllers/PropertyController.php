@@ -19,6 +19,7 @@ class PropertyController extends Controller
 
             $properties = Property::search($request)
                 ->paginate();
+
         } else {
             // If not, paginate all properties
             $properties = Property::paginate();
