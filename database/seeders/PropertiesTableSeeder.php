@@ -17,7 +17,6 @@ class PropertiesTableSeeder extends Seeder
     {
         $path = database_path('seeders/csv/property-data.csv');
 
-        // Assuming $filePath is the path to your CSV and $model is your model instance
         $csvService = new CsvImportService($path, new Property());
 
         // Setup column mappings - CSV column names to model attribute names
@@ -32,7 +31,6 @@ class PropertiesTableSeeder extends Seeder
 
         // Apply the mappings
         $csvService->setColumnMapping($columnMapping);
-
         // Import the data
         $csvService->import();
     }
