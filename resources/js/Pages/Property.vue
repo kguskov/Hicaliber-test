@@ -14,23 +14,27 @@
     </div>
 </template>
 
-<script lang="ts" setup>
-import {ref} from 'vue'
+<script setup>
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
 import Header from "../Components/Header.vue";
 import Aside from "../Components/Aside.vue";
 import Table from "../Components/Table.vue";
 
-const item = {
+const tableData = ref([]);
 
-    name: 'The Victoria',
-    price: '374662',
-    bedrooms: '4',
-    bathrooms: '2',
-    storeys: '2',
-    garages: '2',
+const fetchTableData = async () => {
+    try {
+        const response = await axios.get('/api/properties');
+        tableData.value = response.data.properties;
+    } catch (error) {
+        console.error("There was an error fetching the properties data:", error);
+    }
 }
-const tableData = ref(Array.from({length: 10}).fill(item))
+// Fetch data from the API when the component is mounted
+onMounted(fetchTableData);
+
 </script>
 
 <style scoped>

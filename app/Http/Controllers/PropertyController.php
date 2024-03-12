@@ -18,11 +18,11 @@ class PropertyController extends Controller
         if ($request->hasAny($searchCriteria)) {
 
             $properties = Property::search($request)
-                ->paginate();
+                ->get();
 
         } else {
-            // If not, paginate all properties
-            $properties = Property::paginate();
+            // If not, get all properties
+            $properties = Property::get();
         }
 
         return response()->json(['properties' => $properties]);
