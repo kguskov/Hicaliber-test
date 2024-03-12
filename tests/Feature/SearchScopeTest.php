@@ -21,7 +21,7 @@ class SearchScopeTest extends TestCase
         $propertyName = 'Test Property';
         Property::factory()->create(['name' => $propertyName]);
 
-        $response = $this->getJson('/properties?name=Test');
+        $response = $this->getJson('api/properties?name=Test');
 
         // Adjust the assertion to match the actual JSON structure
         $response->assertJsonFragment(['name' => $propertyName]);
@@ -31,7 +31,7 @@ class SearchScopeTest extends TestCase
     public function test_filters_properties_by_bedrooms()
     {
         Property::factory()->create(['bedrooms' => 3]);
-        $response = $this->getJson('/properties?bedrooms=3');
+        $response = $this->getJson('api/properties?bedrooms=3');
 
         // Checking if the response contains an array with at least one property with 3 bedrooms
         $response->assertJsonFragment(['bedrooms' => 3]);
@@ -42,7 +42,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['price' => 500000]);
 
-        $response = $this->getJson('/properties?min_price=400000&max_price=600000');
+        $response = $this->getJson('api/properties?min_price=400000&max_price=600000');
 
         // Checking if the response contains an array with at least one property in the given price range
         $response->assertJsonFragment(['price' => 500000]);
@@ -53,7 +53,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['bathrooms' => 2]);
 
-        $response = $this->getJson('/properties?bathrooms=2');
+        $response = $this->getJson('api/properties?bathrooms=2');
 
         $response->assertJsonFragment(['bathrooms' => 2]);
     }
@@ -63,7 +63,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['storeys' => 2]);
 
-        $response = $this->getJson('/properties?storeys=2');
+        $response = $this->getJson('api/properties?storeys=2');
 
         $response->assertJsonFragment(['storeys' => 2]);
     }
@@ -73,7 +73,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['garages' => 1]);
 
-        $response = $this->getJson('/properties?garages=1');
+        $response = $this->getJson('api/properties?garages=1');
 
         $response->assertJsonFragment(['garages' => 1]);
     }
@@ -89,7 +89,7 @@ class SearchScopeTest extends TestCase
             'price' => 300000
         ]);
 
-        $response = $this->getJson('/properties?bedrooms=3&bathrooms=2&storeys=2&garages=1&min_price=250000&max_price=350000');
+        $response = $this->getJson('api/properties?bedrooms=3&bathrooms=2&storeys=2&garages=1&min_price=250000&max_price=350000');
 
         $response->assertJsonFragment([
             'bedrooms' => 3,
@@ -105,7 +105,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['bedrooms' => 3]);
 
-        $response = $this->getJson('/properties?bedrooms=2');
+        $response = $this->getJson('api/properties?bedrooms=2');
 
         $response->assertJsonMissing(['bedrooms' => 3]);
     }
@@ -115,7 +115,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['bathrooms' => 2]);
 
-        $response = $this->getJson('/properties?bathrooms=1');
+        $response = $this->getJson('api/properties?bathrooms=1');
 
         $response->assertJsonMissing(['bathrooms' => 2]);
     }
@@ -125,7 +125,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['storeys' => 2]);
 
-        $response = $this->getJson('/properties?storeys=1');
+        $response = $this->getJson('api/properties?storeys=1');
 
         $response->assertJsonMissing(['storeys' => 2]);
     }
@@ -135,7 +135,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['garages' => 1]);
 
-        $response = $this->getJson('/properties?garages=2');
+        $response = $this->getJson('api/properties?garages=2');
 
         $response->assertJsonMissing(['garages' => 1]);
     }
@@ -145,7 +145,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['price' => 500000]);
 
-        $response = $this->getJson('/properties?min_price=300000&max_price=400000');
+        $response = $this->getJson('api/properties?min_price=300000&max_price=400000');
 
         $response->assertJsonMissing(['price' => 500000]);
     }
@@ -155,7 +155,7 @@ class SearchScopeTest extends TestCase
     {
         Property::factory()->create(['bedrooms' => 3]);
 
-        $response = $this->getJson('/properties?bedrooms=invalid');
+        $response = $this->getJson('api/properties?bedrooms=invalid');
 
         $response->assertStatus(422);
     }
