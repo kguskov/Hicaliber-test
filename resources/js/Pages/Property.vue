@@ -1,12 +1,17 @@
+<!-- Property.vue -->
 <template>
     <div class="common-layout">
         <Header></Header>
         <el-container class="layout-container">
             <el-container>
-                <Aside></Aside>
+                <Aside
+                    :availableNames="availableNames"
+                    :availablePrices="availablePrices"
+                    @updateFilters="updateFilters"
+                    @resetFilters="resetFilters"></Aside>
                 <el-main>
                     <el-scrollbar>
-                        <Table :table-data=tableData></Table>
+                        <Table v-loading="isLoading" :table-data="tableData"></Table>
                     </el-scrollbar>
                 </el-main>
             </el-container>
@@ -15,40 +20,76 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import axios from 'axios';
-
 import Header from "../Components/Header.vue";
 import Aside from "../Components/Aside.vue";
 import Table from "../Components/Table.vue";
 
+const isLoading = ref(false);
 const tableData = ref([]);
+const availableNames = ref([]);
+const availablePrices = ref([0, 1]);
+
+const filterStates = ref({
+    bedrooms: null,
+    bathrooms: null,
+    storeys: null,
+    garages: null,
+    price: null,
+    name: null,
+});
 
 const fetchTableData = async () => {
+    let url = '/api/properties';
+    const params = new URLSearchParams(Object.entries(filterStates.value).filter(([, value]) => value != null));
+
     try {
-        const response = await axios.get('/api/properties');
+        isLoading.value = true; // Start loading
+        await delay(200); // For showing the loading indicator
+        const response = await axios.get(`${url}?${params.toString()}`);
         tableData.value = response.data.properties;
+
+        availableNames.value = response.data.properties.map(property => property.name);
+
+        if (response.data.properties.length > 0) {
+            const prices = response.data.properties.map(property => property.price);
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            availablePrices.value = [minPrice, maxPrice];
+        }
     } catch (error) {
         console.error("There was an error fetching the properties data:", error);
+    } finally {
+        isLoading.value = false;
     }
+};
+
+const updateFilters = (newFilters) => {
+    if (newFilters.price) {
+        filterStates.value.min_price = newFilters.price[0];
+        filterStates.value.max_price = newFilters.price[1];
+    } else {
+        filterStates.value = { ...filterStates.value, ...newFilters };
+    }
+    fetchTableData();
+};
+
+const resetFilters = () => {
+    filterStates.value = {
+        bedrooms: null,
+        bathrooms: null,
+        storeys: null,
+        garages: null,
+        price: null,
+        name: null,
+        // Add any other filters
+    };
+    fetchTableData(); // Fetch table data without filters
+};
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
-// Fetch data from the API when the component is mounted
+
 onMounted(fetchTableData);
-
 </script>
-
-<style scoped>
-
-.layout-container .el-aside {
-    color: var(--el-text-color-primary);
-    background: var(--el-color-primary-light-8);
-}
-
-.layout-container .el-menu {
-    border-right: none;
-}
-
-.layout-container .el-main {
-    padding: 0;
-}
-</style>

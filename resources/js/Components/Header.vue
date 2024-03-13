@@ -11,7 +11,7 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-            <span>Tom</span>
+            <span>User</span>
         </div>
     </el-header>
 </template>

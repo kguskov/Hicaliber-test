@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { ElConfigProvider } from 'element-plus'
+import {defineComponent} from 'vue'
+import {ElConfigProvider} from 'element-plus'
 import Property from "./Pages/Property.vue";
 
 export default defineComponent({
