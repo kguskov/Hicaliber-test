@@ -6,7 +6,9 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import {ref, defineProps, defineEmits, inject, watch} from 'vue';
+
+const needReset = inject('needReset');
 
 const { availableBathrooms } = defineProps({
     availableBathrooms: Array,
@@ -18,4 +20,8 @@ const emit = defineEmits(['updateFilter']);
 const handleBathroomsChange = (value) => {
     emit('updateFilter', { bathrooms: value });
 };
+
+watch(needReset, (newVal) => {
+    selectedBathrooms.value = null;
+});
 </script>

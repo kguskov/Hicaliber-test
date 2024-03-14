@@ -4,7 +4,7 @@
             <el-menu :default-openeds="['0', '1', '2', '3', '4']">
                 <!-- Reset Filter -->
                 <div class="flex justify-center mt-4 mb-4 pt-4">
-                    <el-button class="el-button--danger" :icon="Close" @click="emitResetEvent">Reset filters</el-button>
+                    <el-button class="el-button--danger" :icon="Close" @click="emitResetEvent" v-show="filtersChanged">Reset filters</el-button> <!-- Use v-show here -->
                 </div>
                 <!-- Name Filter -->
                 <el-sub-menu index="0">
@@ -107,11 +107,12 @@ const emit = defineEmits(['updateFilters', 'resetFilters']);
 
 const handleFilterChange = (filters) => {
     emit('updateFilters', filters);
+    filtersChanged.value = true;
 };
-
+const filtersChanged = ref(false);
 const emitResetEvent = () => {
     emit('resetFilters');
-    // Reset local states if you have any UI components directly controlled by Aside
+    filtersChanged.value = false;
 };
 </script>
 <style scoped>

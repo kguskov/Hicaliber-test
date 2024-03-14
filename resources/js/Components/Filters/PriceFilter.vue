@@ -8,8 +8,8 @@
     />
 </template>
 <script setup>
-import {ref, watch, defineProps, defineEmits, computed, onMounted} from "vue";
-// Define props and emits
+import {ref, defineProps, defineEmits, computed, inject, watch} from "vue";
+const needReset = inject('needReset');
 const props = defineProps({
     availablePrices: {
         type: Array,
@@ -25,9 +25,11 @@ const maxPrice = computed(() => props.availablePrices[1]);
 const range = ref([...props.availablePrices]);
 
 const handlePriceChange = (value) => {
-    console.log('Emitting price change:', { price: value });
-    emit('updateFilter', { price: value });
+    emit('updateFilter', {price: value});
 };
+watch(needReset, () => {
+    range.value = props.availablePrices; // Reset the value whenever needReset changes
+});
 </script>
 <style scoped>
 

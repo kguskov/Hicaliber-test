@@ -20,16 +20,27 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue';
+import {onMounted, ref, provide} from 'vue';
 import axios from 'axios';
 import Header from "../Components/Header.vue";
 import Aside from "../Components/Aside.vue";
 import Table from "../Components/Table.vue";
 
+const needReset = ref(false);
+const resetFilters = () => {
+    filterStates.value = { ...filterStates };
+    needReset.value = !needReset.value;
+    fetchTableData(); // Fetch table data without filters
+};
+
+provide('needReset', needReset);
+
 const isLoading = ref(false);
 const tableData = ref([]);
 const availableNames = ref([]);
 const availablePrices = ref([0, 1]);
+
+
 
 const filterStates = ref({
     bedrooms: null,
@@ -39,6 +50,7 @@ const filterStates = ref({
     price: null,
     name: null,
 });
+
 
 const fetchTableData = async () => {
     let url = '/api/properties';
@@ -75,18 +87,6 @@ const updateFilters = (newFilters) => {
     fetchTableData();
 };
 
-const resetFilters = () => {
-    filterStates.value = {
-        bedrooms: null,
-        bathrooms: null,
-        storeys: null,
-        garages: null,
-        price: null,
-        name: null,
-        // Add any other filters
-    };
-    fetchTableData(); // Fetch table data without filters
-};
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

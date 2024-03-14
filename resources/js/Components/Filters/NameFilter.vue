@@ -13,9 +13,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import {inject, ref, watch} from 'vue';
 import { defineEmits } from 'vue';
 
+const needReset = inject('needReset');
 // Emits an event to update filters in the parent component
 const emit = defineEmits(['updateFilter']);
 
@@ -47,7 +48,9 @@ const handleClear = () => {
     emit('updateFilter', { name: '' });
 };
 
-
+watch(needReset, () => {
+    name.value = '';
+});
 </script>
 
 <style scoped>
