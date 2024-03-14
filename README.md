@@ -19,6 +19,8 @@ This project demonstrates a wide range of technologies commonly used in the comp
 ![Hicaliber-test](Hicaliber-test (1).png)
 ![Hicaliber-test](Hicaliber-test (2).png)
 
+![Hicaliber-test](Hicaliber-test.png)
+
 ## Project Setup
 
 ### Requirements
