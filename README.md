@@ -15,7 +15,7 @@
 
 This project demonstrates a wide range of technologies commonly used in the company, focusing on a full-stack web application using PHP (Laravel), Vue.js, MySQL, Element UI, and Tailwind CSS. The goal is to showcase not only task completeness and code quality but also the integration of these technologies in creating a responsive and functional application.
 
-![Hicaliber-test](Hicaliber-test.png)
+![Hicaliber-test](https://i.postimg.cc/Znpxs92x/temp-Image-Dc-RSYR.avif)
 
 ## Project Setup
 
