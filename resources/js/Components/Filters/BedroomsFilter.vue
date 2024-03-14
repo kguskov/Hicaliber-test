@@ -6,9 +6,10 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, inject, watch } from 'vue';
+import {ref, defineProps, defineEmits, inject, watch} from 'vue';
+
 const needReset = inject('needReset');
-const { availableBedrooms } = defineProps({
+const {availableBedrooms} = defineProps({
     availableBedrooms: Array,
 });
 
@@ -16,7 +17,7 @@ const selectedBedrooms = ref(null);
 const emit = defineEmits(['updateFilter']);
 
 const handleBedroomsChange = (value) => {
-    emit('updateFilter', { bedrooms: value });
+    emit('updateFilter', {bedrooms: value});
 };
 watch(needReset, (newVal) => {
     selectedBedrooms.value = null;

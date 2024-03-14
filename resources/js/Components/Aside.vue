@@ -1,10 +1,12 @@
 <template>
-    <el-aside width="200px">
+    <el-aside>
         <el-scrollbar>
             <el-menu :default-openeds="['0', '1', '2', '3', '4']">
                 <!-- Reset Filter -->
                 <div class="flex justify-center mt-4 mb-4 pt-4">
-                    <el-button class="el-button--danger" :icon="Close" @click="emitResetEvent" v-show="filtersChanged">Reset filters</el-button> <!-- Use v-show here -->
+                    <el-button class="el-button--danger" :icon="Close" @click="emitResetEvent" v-show="filtersChanged">
+                        Reset filters
+                    </el-button>
                 </div>
                 <!-- Name Filter -->
                 <el-sub-menu index="0">
@@ -104,7 +106,6 @@ const availableGarages = ref([1, 2]);
 const availablePrices = ref([263604, 572002]);
 
 const emit = defineEmits(['updateFilters', 'resetFilters']);
-
 const handleFilterChange = (filters) => {
     emit('updateFilters', filters);
     filtersChanged.value = true;
@@ -116,5 +117,7 @@ const emitResetEvent = () => {
 };
 </script>
 <style scoped>
-
+.el-aside {
+    width:200px;
+}
 </style>

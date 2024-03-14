@@ -14,7 +14,7 @@
 
 <script setup>
 import {inject, ref, watch} from 'vue';
-import { defineEmits } from 'vue';
+import {defineEmits} from 'vue';
 
 const needReset = inject('needReset');
 // Emits an event to update filters in the parent component
@@ -31,21 +31,21 @@ const querySearch = (queryString, cb) => {
     const results = queryString
         ? props.availableNames
             .filter(name => name.toLowerCase().includes(queryString.toLowerCase()))
-            .map(name => ({ value: name })) // Ensure the result is in the expected format
-        : props.availableNames.map(name => ({ value: name }));
+            .map(name => ({value: name})) // Ensure the result is in the expected format
+        : props.availableNames.map(name => ({value: name}));
     cb(results);
 };
 
 const handleSelect = (item) => {
     // When a name is selected, emit an event to update the filter state in the parent component
-    emit('updateFilter', { name: item.value });
+    emit('updateFilter', {name: item.value});
 };
 
 const handleClear = () => {
     // Reset the name value to clear the filter
     name.value = '';
     // Emit an update to the parent component, indicating the name filter has been cleared
-    emit('updateFilter', { name: '' });
+    emit('updateFilter', {name: ''});
 };
 
 watch(needReset, () => {

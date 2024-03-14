@@ -9,6 +9,7 @@
 </template>
 <script setup>
 import {ref, defineProps, defineEmits, computed, inject, watch} from "vue";
+
 const needReset = inject('needReset');
 const props = defineProps({
     availablePrices: {
@@ -23,7 +24,6 @@ const minPrice = computed(() => props.availablePrices[0]);
 const maxPrice = computed(() => props.availablePrices[1]);
 
 const range = ref([...props.availablePrices]);
-
 const handlePriceChange = (value) => {
     emit('updateFilter', {price: value});
 };
